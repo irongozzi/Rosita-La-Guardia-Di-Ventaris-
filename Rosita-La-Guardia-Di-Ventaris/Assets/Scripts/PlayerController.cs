@@ -5,10 +5,13 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed = 1f;
     public float camRotationSpeedX = 1f;
     public float camRotationSpeedY = 1f;
+    public float jumpForce = 1f;
+    public float groundThreshold = 1f;
     public GameObject view;
 
     float camRotationX, camRotationY;
     float horizontalAxis, verticalAxis;
+    bool jumpIsPressed;
     Vector3 calculatedStrafeVelocity, calculatedLinearVelocity;
     Rigidbody playerRB;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +42,12 @@ public class PlayerController : MonoBehaviour
 
         camRotationY = Mathf.Clamp(Input.GetAxis("Mouse Y") + Input.GetAxis("Vertical Secondary"), -1, 1);
         view.transform.Rotate((-camRotationY * camRotationSpeedY) * Time.deltaTime, 0, 0);
+
+        //salto - input
+        if (Input.GetButtonDown("Jump") && IsGrounded())
+        {
+            jumpIsPressed = true;
+        }
     }
 
     void FixedUpdate()
@@ -46,5 +55,35 @@ public class PlayerController : MonoBehaviour
         //applicazione dei due movimenti calcolati
         Vector3 calculatedTotalVelocity = calculatedStrafeVelocity + calculatedLinearVelocity;
         playerRB.linearVelocity = new Vector3(calculatedTotalVelocity.x, playerRB.linearVelocity.y, calculatedTotalVelocity.z);
+
+        //salto - fisica
+        if (jumpIsPressed)
+        {
+            playerRB.AddForce(transform.up * jumpForce);
+            jumpIsPressed = false;
+        }
+    }
+
+    bool IsGrounded()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, -transform.up, out hit))
+        {
+            if (hit.distance < groundThreshold)
+            {
+                Debug.DrawRay(transform.position, -transform.up, Color.green);
+                return true;
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, -transform.up, Color.red);
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }

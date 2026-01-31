@@ -2090,9 +2090,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b332485059d5c2b40b529ea705ea22a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
+  movementSpeed: 10
   camRotationSpeedX: 400
   camRotationSpeedY: 200
+  jumpForce: 700
+  groundThreshold: 1.1
   view: {fileID: 1651771918}
 --- !u!54 &1929307770
 Rigidbody:
@@ -2102,7 +2104,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1929307764}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 100
   m_CenterOfMass: {x: 0, y: 0, z: 0}
