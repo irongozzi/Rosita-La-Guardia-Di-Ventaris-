@@ -2093,7 +2093,6 @@ MonoBehaviour:
   movementSpeed: 15
   camRotationSpeedX: 400
   camRotationSpeedY: 200
-  camRotationLimit: 50
   view: {fileID: 1651771918}
 --- !u!54 &1929307770
 Rigidbody:
