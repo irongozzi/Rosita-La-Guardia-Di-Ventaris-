@@ -2095,6 +2095,7 @@ MonoBehaviour:
   camRotationSpeedY: 200
   jumpForce: 700
   groundThreshold: 1.1
+  camRotationRange: 400
   view: {fileID: 1651771918}
 --- !u!54 &1929307770
 Rigidbody:

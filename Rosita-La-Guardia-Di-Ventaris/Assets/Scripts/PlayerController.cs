@@ -7,13 +7,16 @@ public class PlayerController : MonoBehaviour
     public float camRotationSpeedY = 1f;
     public float jumpForce = 1f;
     public float groundThreshold = 1f;
+    public float camRotationRange;
     public GameObject view;
 
+    float calculatedCamRotationX, calculatedCamRotationY;
     float camRotationX, camRotationY;
     float horizontalAxis, verticalAxis;
     bool jumpIsPressed;
     Vector3 calculatedStrafeVelocity, calculatedLinearVelocity;
     Rigidbody playerRB;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,10 +41,14 @@ public class PlayerController : MonoBehaviour
 
         //calcolo e applicazione della rotazione della visuale in su e in giù (funzionante sia su M&K che su controller)
         camRotationX = Mathf.Clamp(Input.GetAxis("Mouse X") + Input.GetAxis("Horizontal Secondary"), -1, 1);
-        transform.Rotate(0, (camRotationX * camRotationSpeedX) * Time.deltaTime, 0);
+        calculatedCamRotationX = (camRotationX * camRotationSpeedX) * Time.deltaTime;
+        transform.Rotate(0, calculatedCamRotationX, 0);
+        print(transform.rotation);
 
-        camRotationY = Mathf.Clamp(Input.GetAxis("Mouse Y") + Input.GetAxis("Vertical Secondary"), -1, 1);
-        view.transform.Rotate((-camRotationY * camRotationSpeedY) * Time.deltaTime, 0, 0);
+        camRotationY = Mathf.Clamp(Input.GetAxis("Mouse Y") + Input.GetAxis("Vertical Secondary"), -1, 1); //prendo l'input del player normalizzato
+        calculatedCamRotationY += (camRotationY * camRotationSpeedY) * Time.deltaTime; //calcolo la rotazione del giocatore 
+        calculatedCamRotationY = Mathf.Clamp(calculatedCamRotationY, -camRotationRange, camRotationRange);
+        view.transform.localEulerAngles = new Vector3(calculatedCamRotationY, 0, 0); //applicazione della rotazione agli angoli di eulero della visuale
 
         //salto - input
         if (Input.GetButtonDown("Jump") && IsGrounded())
