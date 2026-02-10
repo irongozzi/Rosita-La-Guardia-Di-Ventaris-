@@ -207,10 +207,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.08008377, y: -0, z: -0, w: 0.99678814}
   m_LocalPosition: {x: 0, y: 3, z: -15.630001}
-  m_LocalScale: {x: 1.293175, y: 2.701143, z: 4.084169}
+  m_LocalScale: {x: 1.293175, y: 2.7011428, z: 4.084169}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1651771919}
+  m_Father: {fileID: 1835859719}
   m_LocalEulerAnglesHint: {x: 9.187, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -1888,7 +1888,7 @@ Transform:
   m_LocalScale: {x: 0.7732906, y: 0.37021363, z: 0.24484788}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 330585546}
+  - {fileID: 1835859719}
   m_Father: {fileID: 1929307768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1651771920
@@ -1965,6 +1965,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651771918}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1835859718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1835859719}
+  m_Layer: 0
+  m_Name: VisorPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1835859719
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835859718}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 330585546}
+  m_Father: {fileID: 1651771919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1929307764
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,8 +2127,8 @@ MonoBehaviour:
   camRotationSpeedY: 200
   jumpForce: 700
   groundThreshold: 1.1
-  camRotationRange: 400
-  view: {fileID: 1651771918}
+  camRotationRange: 15
+  view: {fileID: 1835859718}
 --- !u!54 &1929307770
 Rigidbody:
   m_ObjectHideFlags: 0
