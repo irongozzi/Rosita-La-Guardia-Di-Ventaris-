@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float movementSpeed = 1f;
+    public float runSpeed = 1f;
     public float camRotationSpeedX = 1f;
     public float camRotationSpeedY = 1f;
     public float jumpForce = 1f;
@@ -32,18 +33,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //calcolo del movimento sull'asse orizzontale (strafe, funzionante sia su M&K che su controller)
-        horizontalAxis = Input.GetAxis("Horizontal") * movementSpeed;
+        horizontalAxis = Input.GetAxis("Horizontal") * (Input.GetKey(KeyCode.LeftShift) ? runSpeed : movementSpeed);
         calculatedStrafeVelocity = transform.right * horizontalAxis;
 
         //calcolo del movimento sull'asse verticale (movimento avanti-indietro, funzionante sia su M&K che su controller)
-        verticalAxis = Input.GetAxis("Vertical") * movementSpeed;
+        verticalAxis = Input.GetAxis("Vertical") * (Input.GetKey(KeyCode.LeftShift) ? runSpeed : movementSpeed);
         calculatedLinearVelocity = transform.forward * verticalAxis;
 
         //calcolo e applicazione della rotazione della visuale in su e in giù (funzionante sia su M&K che su controller)
         camRotationX = Mathf.Clamp(Input.GetAxis("Mouse X") + Input.GetAxis("Horizontal Secondary"), -1, 1);
         calculatedCamRotationX = (camRotationX * camRotationSpeedX) * Time.deltaTime;
         transform.Rotate(0, calculatedCamRotationX, 0);
-        print(transform.rotation);
 
         camRotationY = Mathf.Clamp(Input.GetAxis("Mouse Y") + Input.GetAxis("Vertical Secondary"), -1, 1); //prendo l'input del player normalizzato
         calculatedCamRotationY += (camRotationY * camRotationSpeedY) * Time.deltaTime; //calcolo la rotazione del giocatore 
