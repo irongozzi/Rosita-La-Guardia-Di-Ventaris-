@@ -1,113 +1,94 @@
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class RositaCharacterController : MonoBehaviour
 {
     public Animator animator;
     public Rigidbody Rosita;
-    public float force = 1;
-    private float timers = 0f;
+    public float moveSpeed = 5f;
     public Transform CameraTransform;
+    public float RotationSpeed = 10f;
+
     Vector3 forward;
     Vector3 right;
     Vector3 Direction;
-    public AudioSource FootStep;
-    public float speed = 100f;
-    private bool Corsa;
-    public float RotationSpeed = 10f;
-    float speedMultiplier = 1f;
 
-    void Start()
-    {
-    }
+    float speedMultiplier = 1f;
+    bool pugni;
 
     void Update()
     {
+        forward = CameraTransform.forward;
+        right = CameraTransform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetBool("SoftRun", false);
-            animator.SetBool("TrueRun", false);
             animator.SetTrigger("punch");
-            
-
         }
 
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+
+        pugni = state.IsName("Punch");
 
         float Horizontal = 0f;
         float Vertical = 0f;
 
         if (Input.GetKey(KeyCode.W))
-        {
             Vertical = 1f;
-            animator.SetBool("SoftRun", true);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            Vertical = -1f;
-            animator.SetBool("SoftRun", true);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            Horizontal = -1f;
-            animator.SetBool("SoftRun", true);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            Horizontal = 1f;
-            animator.SetBool("SoftRun", true);
-        }
 
-        if ((Horizontal != 0 || Vertical != 0) && Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.S))
+            Vertical = -1f;
+
+        if (Input.GetKey(KeyCode.A))
+            Horizontal = -1f;
+
+        if (Input.GetKey(KeyCode.D))
+            Horizontal = 1f;
+
+        bool isMoving = Horizontal != 0 || Vertical != 0;
+        bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
+
+        if (pugni)
         {
-            print("ok");
-            animator.SetBool("SoftRun", false);
-            animator.SetBool("TrueRun", true);
-            Direction = (forward * Vertical * 2) + (right * Horizontal * 2);
+            speedMultiplier = 0.2f;
+        }
+        else if (isRunning)
+        {
             speedMultiplier = 1.5f;
         }
         else
         {
-            animator.SetBool("SoftRun", true);
-            animator.SetBool("TrueRun", false);
             speedMultiplier = 1f;
         }
 
-        if (Horizontal != 0 && Vertical != 0)
-        {
-            animator.SetBool("SoftRun", true);
-            Direction = (forward * Vertical / 3) + (right * Horizontal / 3);
-        }
-        else
-        {
-            Corsa = false;
-        }
-
-        if (Horizontal != 0 || Vertical != 0)
-        {
-            animator.SetBool("SoftRun", true);
-        }
-        else
-        {
-            animator.SetBool("SoftRun", false);
-        }
-
-        forward = CameraTransform.forward;
-        right = CameraTransform.right;
-        forward.y = 0f;
-        right.y = 0f;
-        forward.Normalize();
-        right.Normalize();
+        animator.SetBool("SoftRun", isMoving && !isRunning);
+        animator.SetBool("TrueRun", isRunning);
 
         Direction = (forward * Vertical) + (right * Horizontal);
-        Rosita.transform.Translate(Direction * force * speedMultiplier * Time.deltaTime, Space.World);
+        Direction.Normalize();
 
-        if (Horizontal != 0 || Vertical != 0)
+        Vector3 velocity = Direction * moveSpeed * speedMultiplier;
+
+        Rosita.linearVelocity = new Vector3(
+            velocity.x,
+            Rosita.linearVelocity.y,
+            velocity.z
+        );
+
+        if (isMoving)
         {
-            Vector3 moveDirection = Direction.normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, RotationSpeed * Time.deltaTime);
+            Quaternion targetRotation = Quaternion.LookRotation(Direction, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation,
+                targetRotation,
+                RotationSpeed * Time.deltaTime
+            );
         }
     }
 }
