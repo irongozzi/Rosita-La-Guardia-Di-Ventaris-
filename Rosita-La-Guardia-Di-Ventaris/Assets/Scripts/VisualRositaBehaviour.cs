@@ -3,19 +3,19 @@ using UnityEngine;
 public class VisualRositaBehaviour : MonoBehaviour
 {
     [Header("Sensibilità Mouse")]
-    public float mouseSensitivityY = 200f;
-    public float mouseSensitivityX = 200f;
+    public float MouseSensitivityY = 200f;
+    public float MouseSensitivityX = 200f;
 
 
     [Header("Corpo del Player")]
-    public Transform playerBody;
+    public Transform PlayerBody;
 
     // Rotazione verticale camera
-    public float xRotation = 1f;
+    float xRotation;
 
     // Limiti visuale verticale
-    public float topClamp = 10f;
-    public float bottomClamp = -5f;
+    public float TopClamp = 10f;
+    public float BottomClamp = -5f;
 
     void Start()
     {
@@ -27,19 +27,19 @@ public class VisualRositaBehaviour : MonoBehaviour
     {
         
         // Input mouse
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivityX * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivityY * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * MouseSensitivityX * Time.deltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * MouseSensitivityY * Time.deltaTime;
 
         // Movimento verticale camera
         xRotation -= mouseY;
 
         // Limiti visuale
-        xRotation = Mathf.Clamp(xRotation, topClamp, bottomClamp);
+        xRotation = Mathf.Clamp(xRotation, BottomClamp, TopClamp);
 
         // Applica rotazione verticale
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
         // Rotazione orizzontale player
-        playerBody.Rotate(Vector3.up * mouseX);
+        PlayerBody.Rotate(Vector3.up * mouseX);
     }
 }

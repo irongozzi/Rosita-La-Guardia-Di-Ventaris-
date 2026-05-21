@@ -4,7 +4,7 @@ public class RositaCharacterController : MonoBehaviour
 {
     public Animator animator;
     public Rigidbody Rosita;
-    public float moveSpeed = 5f;
+    public float MoveSpeed = 5f;
     public Transform CameraTransform;
     public float RotationSpeed = 10f;
 
@@ -67,12 +67,12 @@ public class RositaCharacterController : MonoBehaviour
         }
 
         animator.SetBool("SoftRun", isMoving && !isRunning);
-        animator.SetBool("TrueRun", isRunning);
+        animator.SetBool("SpeedRun", isRunning);
 
         Direction = (forward * Vertical) + (right * Horizontal);
         Direction.Normalize();
 
-        Vector3 velocity = Direction * moveSpeed * speedMultiplier;
+        Vector3 velocity = Direction * MoveSpeed * speedMultiplier;
 
         Rosita.linearVelocity = new Vector3(
             velocity.x,
