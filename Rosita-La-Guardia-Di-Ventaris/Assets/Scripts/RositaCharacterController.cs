@@ -33,11 +33,11 @@ public class RositaCharacterController : MonoBehaviour
         //assegna a isPunching true se siamo nell'animazione dei pugni
         isAttacking = state.IsName("SwordAttack(1)");
         isAttackingSecondary = state.IsName("SecondSwordAttack");
-        isHealing = state.IsName("cast");
+        isHealing = state.IsName("Cast");
         isRunningWithSword = state.IsName("SpeedRun");
         isJumping = state.IsName("Jump");
         isBlocking = state.IsName("Blocking");
-        isCasting = state.IsName("Cast");
+        
         //animazione attacco spada
         if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && !AlternativeAttack)
         {
@@ -96,6 +96,7 @@ public class RositaCharacterController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Animator.SetTrigger("Cast");
+            
 
         }
 
