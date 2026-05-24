@@ -6,60 +6,80 @@ public class RositaCharacterController : MonoBehaviour
     public Animator Animator;
     public Rigidbody RositaRB;
     public Transform CameraTransform;
-    public GameObject ZonaDiCura,Sword;
-    public AudioSource HealSource,SwingSword;
-    public AudioClip HealClip,SwordHit;
+    public GameObject ZonaDiCura, Sword;
+    public AudioSource HealSource, SwingSword, Kick;
+    public AudioClip HealClip, SwordHit, KickHit;
     public float MoveSpeed = 5f;
     public float RotationSpeed = 10f;
     public float GroundThreshold = 1f;
     public float JumpForce = 1f;
+    float HealingCooldown = 20f;
+    float currentHealingCooldown = 0f;
+
 
     Vector3 forward;
     Vector3 right;
     Vector3 Direction;
 
     float speedMultiplier = 1f;
-    bool isAttacking, isAttackingSecondary, hasJumped, isInAir, isHealing, healSoundPlayed, isRunningWithSword, isJumping, isBlocking, isCasting;
+    bool isAttacking, isAttackingSecondary, isAttackingThird, hasJumped, isInAir, isHealing, healSoundPlayed, isRunningWithSword, isJumping, isBlocking, isCasting;
     //booleane per il primo e secondo attacco della spada
-    bool AlternativeAttack;
-    
+    bool AlternativeAttack,OtherAttack;
+
 
 
     void Update()
     {
+        // TIMER SCALA NEL TEMPO
+        if (currentHealingCooldown > 0)
+        {
+            currentHealingCooldown -= Time.deltaTime;
+        }
+
         //salva l'informazione del corrente stato di animazione nella variabile state
         AnimatorStateInfo state = Animator.GetCurrentAnimatorStateInfo(0);
 
         //assegna a isPunching true se siamo nell'animazione dei pugni
         isAttacking = state.IsName("SwordAttack(1)");
         isAttackingSecondary = state.IsName("SecondSwordAttack");
+        isAttackingThird = state.IsName("ThirdAttack");
         isHealing = state.IsName("Cast");
         isRunningWithSword = state.IsName("SpeedRun");
         isJumping = state.IsName("Jump");
         isBlocking = state.IsName("Blocking");
-        
+
         //animazione attacco spada
-        if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && !AlternativeAttack)
+        if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && !AlternativeAttack && !isBlocking && !OtherAttack )
         {
             Animator.SetTrigger("SwordAttack");
             SwingSword.PlayOneShot(SwordHit);
             AlternativeAttack = true;
         }
-        else if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && AlternativeAttack)
+        else if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && AlternativeAttack && !isBlocking && !OtherAttack)
         {
             Animator.SetTrigger("SecondSwordAttack");
-            AlternativeAttack = false;
+           
             SwingSword.PlayOneShot(SwordHit);
+            OtherAttack = true;
         }
 
+        else if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && AlternativeAttack && !isBlocking  && OtherAttack)
+        {
+            Animator.SetTrigger("ThirdSwordAttack 0");
+            AlternativeAttack = false;
+            Kick.PlayOneShot(KickHit);
+            OtherAttack = false;
+            AlternativeAttack = false;
+        }
 
 
         //attacco spada (air variant)
 
-
-        if (Input.GetMouseButtonDown(0) && !isGrounded())
+    
+        if (Input.GetMouseButtonDown(0) && !isGrounded() && !isBlocking)
         {
             Animator.SetTrigger("HighKick");
+            Kick.PlayOneShot(KickHit);
 
         }
 
@@ -69,10 +89,10 @@ public class RositaCharacterController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Q))
         {
-            
+
             Animator.SetTrigger("RightDoge");
         }
-           
+
 
         //parata
 
@@ -93,11 +113,10 @@ public class RositaCharacterController : MonoBehaviour
 
 
         //animazione zona di cura
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && currentHealingCooldown <= 0f && !isBlocking)
         {
             Animator.SetTrigger("Cast");
-            
-
+            currentHealingCooldown = HealingCooldown;
         }
 
         if (isHealing)
@@ -137,7 +156,7 @@ public class RositaCharacterController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.S))
             Vertical = -1f;
-        
+
 
         if (Input.GetKey(KeyCode.A))
             Horizontal = -1f;
@@ -150,7 +169,7 @@ public class RositaCharacterController : MonoBehaviour
         bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
 
         //metti un moltiplicatore per la velocità in base a cosa sta facendo il giocatore
-        speedMultiplier = isAttacking ? 0.2f : isRunning ? 1f : isAttackingSecondary ? 0.2f : isBlocking ? 0f : isHealing ? 0f : 0.6f;
+        speedMultiplier = isAttacking ? 0.2f : isRunning ? 1f : isAttackingSecondary ? 0.2f : isBlocking ? 0f : isHealing ? 0f : isAttackingThird ? 0.1f : 0.6f;
 
         //metti le animazioni corrette in base alla modalità di movimento del giocatore
         Animator.SetBool("SoftRun", isMoving && !isRunning);

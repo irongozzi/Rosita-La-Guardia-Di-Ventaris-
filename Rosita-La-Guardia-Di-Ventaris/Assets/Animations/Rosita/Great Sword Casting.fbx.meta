@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a0a8e9248461201419f2791b9db575c8
+guid: 3ae6cbb1f094812479c7ce7bdf245b53
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: SwordAttack(1)
+      name: SecondCast
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 36
+      lastFrame: 85
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
