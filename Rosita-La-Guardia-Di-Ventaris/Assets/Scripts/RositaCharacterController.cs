@@ -150,7 +150,7 @@ public class RositaCharacterController : MonoBehaviour
         bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
 
         //metti un moltiplicatore per la velocità in base a cosa sta facendo il giocatore
-        speedMultiplier = isAttacking ? 0.2f : isRunning ? 1f : isAttackingSecondary ? 0.2f : isBlocking ? 0f : isCasting ? 0f : 0.6f;
+        speedMultiplier = isAttacking ? 0.2f : isRunning ? 1f : isAttackingSecondary ? 0.2f : isBlocking ? 0f : isHealing ? 0f : 0.6f;
 
         //metti le animazioni corrette in base alla modalità di movimento del giocatore
         Animator.SetBool("SoftRun", isMoving && !isRunning);
