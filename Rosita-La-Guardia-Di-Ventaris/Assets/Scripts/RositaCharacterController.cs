@@ -15,6 +15,8 @@ public class RositaCharacterController : MonoBehaviour
     public float JumpForce = 1f;
     float HealingCooldown = 20f;
     float currentHealingCooldown = 0f;
+    float AttackCooldown = 0.5f;
+    float currentAttackCooldown = 0f;
 
 
     Vector3 forward;
@@ -22,9 +24,9 @@ public class RositaCharacterController : MonoBehaviour
     Vector3 Direction;
 
     float speedMultiplier = 1f;
-    bool isAttacking, isAttackingSecondary, isAttackingThird, hasJumped, isInAir, isHealing, healSoundPlayed, isRunningWithSword, isJumping, isBlocking, isCasting;
+    bool isAttacking, isAttackingSecondary, isAttackingThird, hasJumped, isInAir, isHealing, healSoundPlayed, isRunningWithSword, isJumping, isBlocking, isCasting, isUsingMagic, isTwerking;
     //booleane per il primo e secondo attacco della spada
-    bool AlternativeAttack,OtherAttack;
+    bool AlternativeAttack, OtherAttack, TransitionAttack;
 
 
 
@@ -36,47 +38,94 @@ public class RositaCharacterController : MonoBehaviour
             currentHealingCooldown -= Time.deltaTime;
         }
 
+        // FIX COOLDOWN ATTACCO
+        if (currentAttackCooldown > 0f)
+        {
+            currentAttackCooldown -= Time.deltaTime;
+        }
+        else
+        {
+            currentAttackCooldown = 0f;
+        }
+
+        TransitionAttack = currentAttackCooldown > 0f;
+
         //salva l'informazione del corrente stato di animazione nella variabile state
         AnimatorStateInfo state = Animator.GetCurrentAnimatorStateInfo(0);
 
         //assegna a isPunching true se siamo nell'animazione dei pugni
         isAttacking = state.IsName("SwordAttack(1)");
         isAttackingSecondary = state.IsName("SecondSwordAttack");
-        isAttackingThird = state.IsName("ThirdAttack");
+        isAttackingThird = state.IsName("HighKick");
         isHealing = state.IsName("Cast");
         isRunningWithSword = state.IsName("SpeedRun");
         isJumping = state.IsName("Jump");
         isBlocking = state.IsName("Blocking");
+        isUsingMagic = state.IsName("SecondCast");
+        isTwerking = state.IsName("Dancing Twerk");
 
         //animazione attacco spada
-        if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && !AlternativeAttack && !isBlocking && !OtherAttack )
+        //animazione attacco spada
+        if (Input.GetMouseButtonDown(0)
+            && isGrounded()
+            && !AlternativeAttack
+            && !isBlocking
+            && !OtherAttack
+            && !TransitionAttack
+            && !isAttacking
+            && !isAttackingSecondary
+            && !isAttackingThird
+            && !isTwerking)
         {
             Animator.SetTrigger("SwordAttack");
             SwingSword.PlayOneShot(SwordHit);
+
             AlternativeAttack = true;
-        }
-        else if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && AlternativeAttack && !isBlocking && !OtherAttack)
-        {
-            Animator.SetTrigger("SecondSwordAttack");
-           
-            SwingSword.PlayOneShot(SwordHit);
-            OtherAttack = true;
+            currentAttackCooldown = AttackCooldown;
         }
 
-        else if (Input.GetMouseButtonDown(0) && !isAttacking && isGrounded() && AlternativeAttack && !isBlocking  && OtherAttack)
+        else if (Input.GetMouseButtonDown(0)
+            && isGrounded()
+            && AlternativeAttack
+            && !isBlocking
+            && !OtherAttack
+            && !TransitionAttack
+            && !isAttacking
+            && !isAttackingSecondary
+            && !isAttackingThird
+            && !isTwerking)
         {
-            Animator.SetTrigger("ThirdSwordAttack 0");
-            AlternativeAttack = false;
+            Animator.SetTrigger("SecondSwordAttack");
+            SwingSword.PlayOneShot(SwordHit);
+
+            OtherAttack = true;
+            currentAttackCooldown = AttackCooldown;
+        }
+
+        else if (Input.GetMouseButtonDown(0)
+            && isGrounded()
+            && AlternativeAttack
+            && !isBlocking
+            && OtherAttack
+            && !TransitionAttack
+            && !isAttacking
+            && !isAttackingSecondary
+            && !isAttackingThird)
+        {
+            Animator.SetTrigger("HighKick");
             Kick.PlayOneShot(KickHit);
-            OtherAttack = false;
+
             AlternativeAttack = false;
+            OtherAttack = false;
+
+            currentAttackCooldown = AttackCooldown;
         }
 
 
         //attacco spada (air variant)
 
-    
-        if (Input.GetMouseButtonDown(0) && !isGrounded() && !isBlocking)
+
+        if (Input.GetMouseButtonDown(0) && !isGrounded())
         {
             Animator.SetTrigger("HighKick");
             Kick.PlayOneShot(KickHit);
@@ -118,6 +167,8 @@ public class RositaCharacterController : MonoBehaviour
             Animator.SetTrigger("Cast");
             currentHealingCooldown = HealingCooldown;
         }
+        //twerk
+
 
         if (isHealing)
         {
@@ -133,6 +184,28 @@ public class RositaCharacterController : MonoBehaviour
         {
             ZonaDiCura.SetActive(false);
             healSoundPlayed = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            Animator.SetTrigger("Twerk");
+
+        }
+
+        if (isTwerking)
+        {
+            Sword.SetActive(false);
+        }
+        else
+        {
+            Sword.SetActive(true);
+        }
+
+
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Animator.SetTrigger("Cast2");
         }
 
         #region Movimento
@@ -169,7 +242,7 @@ public class RositaCharacterController : MonoBehaviour
         bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
 
         //metti un moltiplicatore per la velocità in base a cosa sta facendo il giocatore
-        speedMultiplier = isAttacking ? 0.2f : isRunning ? 1f : isAttackingSecondary ? 0.2f : isBlocking ? 0f : isHealing ? 0f : isAttackingThird ? 0.1f : 0.6f;
+        speedMultiplier = isAttacking ? 0f : isRunning ? 1f : isAttackingSecondary ? 0f : isBlocking ? 0f : isHealing ? 0f : isAttackingThird ? 0f : isUsingMagic ? 0f : 0.6f;
 
         //metti le animazioni corrette in base alla modalità di movimento del giocatore
         Animator.SetBool("SoftRun", isMoving && !isRunning);
