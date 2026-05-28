@@ -221,6 +221,103 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.01765717, y: 0.018988583, z: 0.000044614637}
   m_Center: {x: -0.000007811979, y: 0.000017443333, z: -0.0016378567}
+--- !u!1001 &1472377877
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2605793954600974770, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6103121896325698434, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
+      propertyPath: m_Name
+      value: Canvas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 92d2d914788ed714d962236c15ddac6d, type: 3}
 --- !u!1 &1544048440
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,12 +647,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 560bab72ea3d6fa4da4a395a30ab32ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivityY: 30
-  mouseSensitivityX: 170
-  playerBody: {fileID: 543450651582070998}
-  xRotation: 0
-  topClamp: -3
-  bottomClamp: 3
+  MouseSensitivityY: 200
+  MouseSensitivityX: 200
+  PlayerBody: {fileID: 0}
+  TopClamp: 10
+  BottomClamp: -5
 --- !u!1 &2037755373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2253,13 +2349,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b1c4bb965048745b869ae2135a6628, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 5866666019933444780}
-  Rosita: {fileID: 1553216783}
-  force: 10
+  Animator: {fileID: 0}
+  RositaRB: {fileID: 0}
   CameraTransform: {fileID: 1956643866}
-  FootStep: {fileID: 0}
-  speed: 100
+  ZonaDiCura: {fileID: 0}
+  Sword: {fileID: 0}
+  HealSource: {fileID: 0}
+  SwingSword: {fileID: 0}
+  Kick: {fileID: 0}
+  HealClip: {fileID: 0}
+  SwordHit: {fileID: 0}
+  KickHit: {fileID: 0}
+  MoveSpeed: 5
   RotationSpeed: 10
+  GroundThreshold: 1
+  JumpForce: 1
 --- !u!114 &5866666019933444783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2272,24 +2376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b332485059d5c2b40b529ea705ea22a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
-  runSpeed: 1
-  camRotationSpeedX: 1
-  camRotationSpeedY: 1
-  jumpForce: 1
-  groundThreshold: 1
-  camRotationRange: 0
-  view: {fileID: 0}
-  calculatedCamRotationX: 0
-  calculatedCamRotationY: 0
-  camRotationX: 0
-  camRotationY: 0
-  horizontalAxis: 0
-  verticalAxis: 0
-  jumpIsPressed: 0
-  calculatedStrafeVelocity: {x: 0, y: 0, z: 0}
-  calculatedLinearVelocity: {x: 0, y: 0, z: 0}
-  playerRB: {fileID: 0}
 --- !u!4 &5901452233748517461
 Transform:
   m_ObjectHideFlags: 0
@@ -3112,3 +3198,4 @@ SceneRoots:
   - {fileID: 543450651582070998}
   - {fileID: 206322916}
   - {fileID: 1544048442}
+  - {fileID: 1472377877}
