@@ -66,12 +66,12 @@ public class RositaCharacterController : MonoBehaviour
 
         //animazione attacco spada
         //animazione attacco spada
+        // PRIMO ATTACCO
         if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && !AlternativeAttack
             && !isBlocking
             && !OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
             && !isAttackingThird
@@ -81,15 +81,14 @@ public class RositaCharacterController : MonoBehaviour
             SwingSword.PlayOneShot(SwordHit);
 
             AlternativeAttack = true;
-            currentAttackCooldown = AttackCooldown;
         }
 
+        
         else if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && AlternativeAttack
             && !isBlocking
             && !OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
             && !isAttackingThird
@@ -99,30 +98,48 @@ public class RositaCharacterController : MonoBehaviour
             SwingSword.PlayOneShot(SwordHit);
 
             OtherAttack = true;
-            currentAttackCooldown = AttackCooldown;
         }
 
+        
         else if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && AlternativeAttack
-            && !isBlocking
+            && isBlocking == false
             && OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
-            && !isAttackingThird)
+            && !isAttackingThird
+            && !isTwerking)
+        {
+            Animator.SetTrigger("SwordAttack");
+            SwingSword.PlayOneShot(SwordHit);
+
+            
+            AlternativeAttack = false;
+            OtherAttack = true;
+        }
+
+        
+        else if (Input.GetMouseButtonDown(0)
+            && isGrounded()
+            && !AlternativeAttack
+            && !isBlocking
+            && OtherAttack
+            && !isAttacking
+            && !isAttackingSecondary
+            && !isAttackingThird
+            && !isTwerking)
         {
             Animator.SetTrigger("HighKick");
             Kick.PlayOneShot(KickHit);
 
+            // reset combo
             AlternativeAttack = false;
             OtherAttack = false;
-
-            currentAttackCooldown = AttackCooldown;
         }
 
 
-        //attacco spada (air variant)
+        
 
 
         if (Input.GetMouseButtonDown(0) && !isGrounded())
