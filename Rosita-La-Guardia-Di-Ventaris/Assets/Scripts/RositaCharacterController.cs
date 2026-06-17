@@ -65,7 +65,6 @@ public class RositaCharacterController : MonoBehaviour
         isTwerking = state.IsName("Dancing Twerk");
 
         //animazione attacco spada
-        //animazione attacco spada
         if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && !AlternativeAttack
