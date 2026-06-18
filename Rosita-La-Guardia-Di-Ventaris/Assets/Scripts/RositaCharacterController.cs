@@ -65,12 +65,12 @@ public class RositaCharacterController : MonoBehaviour
         isTwerking = state.IsName("Dancing Twerk");
 
         //animazione attacco spada
+        // PRIMO ATTACCO
         if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && !AlternativeAttack
             && !isBlocking
             && !OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
             && !isAttackingThird
@@ -80,15 +80,14 @@ public class RositaCharacterController : MonoBehaviour
             SwingSword.PlayOneShot(SwordHit);
 
             AlternativeAttack = true;
-            currentAttackCooldown = AttackCooldown;
         }
 
+        
         else if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && AlternativeAttack
             && !isBlocking
             && !OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
             && !isAttackingThird
@@ -98,30 +97,48 @@ public class RositaCharacterController : MonoBehaviour
             SwingSword.PlayOneShot(SwordHit);
 
             OtherAttack = true;
-            currentAttackCooldown = AttackCooldown;
         }
 
+        
         else if (Input.GetMouseButtonDown(0)
             && isGrounded()
             && AlternativeAttack
-            && !isBlocking
+            && isBlocking == false
             && OtherAttack
-            && !TransitionAttack
             && !isAttacking
             && !isAttackingSecondary
-            && !isAttackingThird)
+            && !isAttackingThird
+            && !isTwerking)
+        {
+            Animator.SetTrigger("SwordAttack");
+            SwingSword.PlayOneShot(SwordHit);
+
+            
+            AlternativeAttack = false;
+            OtherAttack = true;
+        }
+
+        
+        else if (Input.GetMouseButtonDown(0)
+            && isGrounded()
+            && !AlternativeAttack
+            && !isBlocking
+            && OtherAttack
+            && !isAttacking
+            && !isAttackingSecondary
+            && !isAttackingThird
+            && !isTwerking)
         {
             Animator.SetTrigger("HighKick");
             Kick.PlayOneShot(KickHit);
 
+            // reset combo
             AlternativeAttack = false;
             OtherAttack = false;
-
-            currentAttackCooldown = AttackCooldown;
         }
 
 
-        //attacco spada (air variant)
+        
 
 
         if (Input.GetMouseButtonDown(0) && !isGrounded())
@@ -132,7 +149,7 @@ public class RositaCharacterController : MonoBehaviour
         }
 
 
-        //se st‡ correndo la spada viene disattivata
+        //se st√† correndo la spada viene disattivata
         Sword.SetActive(!isRunningWithSword);
 
         if (Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Q))
@@ -240,10 +257,10 @@ public class RositaCharacterController : MonoBehaviour
         bool isMoving = Mathf.Abs(Horizontal) > 0.01f || Mathf.Abs(Vertical) > 0.01f;
         bool isRunning = isMoving && Input.GetKey(KeyCode.LeftShift);
 
-        //metti un moltiplicatore per la velocit‡ in base a cosa sta facendo il giocatore
+        //metti un moltiplicatore per la velocit√† in base a cosa sta facendo il giocatore
         speedMultiplier = isAttacking ? 0f : isRunning ? 1f : isAttackingSecondary ? 0f : isBlocking ? 0f : isHealing ? 0f : isAttackingThird ? 0f : isUsingMagic ? 0f : 0.6f;
 
-        //metti le animazioni corrette in base alla modalit‡ di movimento del giocatore
+        //metti le animazioni corrette in base alla modalit√† di movimento del giocatore
         Animator.SetBool("SoftRun", isMoving && !isRunning);
         Animator.SetBool("SpeedRun", isRunning);
 
@@ -251,7 +268,7 @@ public class RositaCharacterController : MonoBehaviour
         Direction = (forward * Vertical) + (right * Horizontal);
         Direction.Normalize();
 
-        //calcolo e applicazione della velocit‡ di movimento
+        //calcolo e applicazione della velocit√† di movimento
         Vector3 velocity = Direction * MoveSpeed * speedMultiplier;
         RositaRB.linearVelocity = new Vector3(velocity.x, RositaRB.linearVelocity.y, velocity.z);
 
